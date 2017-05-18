@@ -1,4 +1,4 @@
-<div class="row" style="margin-top: 8px;height: 125px">
+<div class="row" style="margin-top: 8px;height: 110px">
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 clearpadding">
 				<a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>upload/logo.png" alt="" class="img-responsive"></a>
 			</div>

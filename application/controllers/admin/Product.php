@@ -16,11 +16,43 @@ class Product extends MY_Controller {
 	}
 	public function index()
 	{
+
 		$message_success = $this->session->flashdata('message_success');
 		$this->data['message_success'] = $message_success;
 
 		$message_fail = $this->session->flashdata('message_fail');
 		$this->data['message_fail'] = $message_fail;
+		if ($this->input->post())
+		{
+			$checkbox = $this->input->post('checkbox');
+			foreach ($checkbox as $value) {
+				$product = $this->product_model->get_info($value);
+				$image = './upload/product/'.$product->image_link;
+				if (file_exists($image)) {
+					unlink($image);
+				}
+				$image_list = array();
+				$image_list = json_decode($product->image_list);
+				if (is_array($image_list)) {
+					foreach ($image_list as $value) {
+						$image = './upload/product/'.$value;
+						if (file_exists($image)) {
+							unlink($image);
+						}
+					}
+				}
+			}
+			$this->db->where_in('id',$checkbox);
+			$this->db->delete('product');
+
+			$flag = $this->db->affected_rows();
+			if ($flag > 0) {
+				$this->session->set_flashdata('message_success', 'Xóa'.$flag.'sản phẩm thành công');
+			}else{
+				$this->session->set_flashdata('message_fail', 'Xóa sản phẩm thất bại');
+			}
+			redirect(admin_url('product'));
+		}
 
 		$total = $this->product_model->get_total();
 		$this->data['total']=$total;
@@ -43,6 +75,7 @@ class Product extends MY_Controller {
 		$product = $this->product_model->get_list($input);
 		$this->data['product']= $product;
 
+		
 		$this->data['temp']='admin/product/index';
 		$this->load->view('admin/main',$this->data);
 	}

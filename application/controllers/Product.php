@@ -243,6 +243,8 @@ class Product extends MY_Controller {
 		}
 		$input['order'] = array('price','ASC');
 		$product_list = $this->product_model->get_list($input);
+		$total =  count($product_list);
+		$this->data['total'] = $total;
 		$this->data['product_list'] = $product_list;
 		$this->data['temp']='site/product/search';
 		$this->load->view('site/layoutsub',$this->data);
