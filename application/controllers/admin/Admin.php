@@ -9,6 +9,7 @@ class Admin extends MY_Controller {
 		$this->load->model('admin_model');
 		$this->load->library('form_validation');
 		$this->load->helper('form');
+		
 	}
 	public function index()
 	{
